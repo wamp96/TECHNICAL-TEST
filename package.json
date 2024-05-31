@@ -4,21 +4,26 @@
   "description": "Prueba Tecnica Cargp: Aprendiz Sena Backend Developer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf ./dist"    
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "-": "^0.0.1",
+    "@types/express": "^4.17.21",
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
+    "D": "^1.0.0",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.18.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.4.1",
+    "morgan": "^1.10.0",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "rimraf": "^5.0.7"
   },
   "devDependencies": {
     "typescript": "^5.4.5"
