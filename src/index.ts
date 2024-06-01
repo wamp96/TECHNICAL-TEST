@@ -1,6 +1,11 @@
-import App from './app';
+import {Application} from './app';
+import {connectdb} from './database';
 
-const app = new App();
 
-app.start();
+async function main(){
+    await connectdb();
+    const app = new Application();
+    app.start();
+}
 
+main();
