@@ -1,7 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
-import {engine} from 'express-handlebars';
 import path from 'path';
+
+const exphbs = require('express-handlebars');
 
 export const DB_PORT = process.env.DB_PORT || 3000;
 /**
@@ -32,7 +33,7 @@ export class Application {
     settings(){   
        
         this.app.set('views', path.join(__dirname, 'views'));    
-        this.app.engine('.hbs', engine(
+        this.app.engine('.hbs', exphbs.engine(
             {
                 layoutsDir: path.join(this.app.get('views'), 'layouts'),
                 partialsDir: path.join(this.app.get('views'), 'partials'),
