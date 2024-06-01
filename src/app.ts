@@ -2,9 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import {engine} from 'express-handlebars';
 import path from 'path';
-import {DB_PORT} from "./database"
 
-
+export const DB_PORT = process.env.DB_PORT || 3000;
 /**
  * Author: Willian Andres Moreno Prieto
  * Date:31/05/2024
@@ -31,7 +30,7 @@ export class Application {
      * 
      */
     settings(){   
-        const DB_PORT = process.env.DB_PORT || 3000;
+       
         this.app.set('views', path.join(__dirname, 'views'));    
         this.app.engine('.hbs', engine(
             {
