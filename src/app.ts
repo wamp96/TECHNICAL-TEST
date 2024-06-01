@@ -2,7 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import {engine} from 'express-handlebars';
 import path from 'path';
-import {DB_PORT} from './database';
+import {DB_PORT} from "./database"
+
 
 /**
  * Author: Willian Andres Moreno Prieto
@@ -30,6 +31,7 @@ export class Application {
      * 
      */
     settings(){   
+        const DB_PORT = process.env.DB_PORT || 3000;
         this.app.set('views', path.join(__dirname, 'views'));    
         this.app.engine('.hbs', engine(
             {
@@ -46,7 +48,7 @@ export class Application {
     start(): void{
         //Se crea el servidor y se genera el puerto segun lo envio recibido desde el metodo setting 
         this.app.listen(DB_PORT, ()=>{
-            console.log('Server running', DB_PORT);
+            console.log('Server running ',DB_PORT);
         });
     }
 
