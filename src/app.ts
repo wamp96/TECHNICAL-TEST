@@ -27,7 +27,7 @@ class Application {
 
     settings(){
         //Puerto que se desea enviar para la conexion al servidor
-        this.app.set('port',5000);
+        this.app.set('port',3000);
         //
         this.app.set('views', path.join(__dirname, 'views'));
         //
@@ -39,18 +39,15 @@ class Application {
                 extname: '.hbs',
             }
         ));
+        this.app.set('view engine', '.hbs');
     }
 
     //Creamos el metodo start que sera el encargado de iniciar la aplicacion y dentro ejecutamos el metodo listen de la propiedad app que empezara a ejecutar el servidor local.  
     start(){
-       try {
         //Se crea el servidor y se genera el puerto segun lo envio recibido desde el metodo setting 
         this.app.listen(this.app.get('port'), ()=>{
-            console.log('Server running', this.app.get('port'));
+            console.log('Server running');
         });
-       } catch (error) {
-        console.log(error);
-       }
     }
 
     //Creamos el metodo routes que sera el encargado de cargar las rutas de la aplicacion
