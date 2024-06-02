@@ -5,7 +5,7 @@ import { AuthController } from '../controllers/AuthControllers';
 const router = Router();
 
 //Rutas
-router.get('/auth/singup', AuthController.renderSingForm);
+router.get('/auth/singup', AuthController.renderSingupForm);
 router.post('/auth/singup', AuthController.singup);
 
 router.get('/auth/singin', AuthController.renderSinginForm);

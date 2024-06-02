@@ -11,9 +11,9 @@ import passport from 'passport';
 
 export class AuthController{
 
-    public static renderSingForm(req:Request,res:Response): void {
-        res.redirect("auth/singup");    
-    }
+    public static renderSingupForm(req:Request,res:Response): void {
+        res.render("auth/singup");    
+    };
 
     public static async singup(req:Request,res:Response): Promise<void> {
         let error = [];
@@ -37,34 +37,34 @@ export class AuthController{
         const userFound = await User.findOne({email:email});
         if (userFound){
             req.flash("error_msg", "El correo ingresado esta en uso");
-            return res.redirect("/auth/signup");
+            return res.redirect("/auth/singup");
         }
 
         const newUser = new User({name, email, password});
         newUser.password = await newUser.encryptPassword('password');
         await newUser.save();
         req.flash("success_msg", "Usuario Registrado");
-        return res.redirect("/auth/signin");
-    }
+        return res.redirect("/auth/singin");
+    };
 
     public static renderSinginForm(req: Request, res: Response): void {
-        res.render("/auth/signin");
-    }
+        res.render("auth/singin");
+    };
 
     public static async singin(req:Request,res:Response,  next: NextFunction): Promise<void>{
        passport.authenticate("local",{
         successRedirect: "/tasks",
-        failureRedirect: "/auth/signin",
+        failureRedirect: "/auth/singin",
         failureFlash: true,
        })(req, res, next);
-    }
+    };
 
     public static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
         await req.logout((err)=>{
             if (err) return next(err);
             req.flash("success_msg", "Usuario Registrado");
-        return res.redirect("/auth/signin");
+        return res.redirect("/auth/singin");
         });  
-    }
+    };
 }
 

@@ -1,3 +1,4 @@
+import flash from 'express-flash';
 import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
@@ -17,6 +18,7 @@ export const DB_PORT = process.env.DB_PORT || 4000;
 import indexRoutes from "./routes/IndexRoutes";
 import tasksRoutes from "./routes/TaskRoutes";
 import authRoutes from "./routes/AuthRoutes";
+
 
 
 export class Application {
@@ -71,6 +73,7 @@ export class Application {
     //Creamos el metodo middlewares que sera el encargado de cargar los middlewares de la aplicacion
     middlewares(){
         this.app.use(morgan('dev'));
+        this.app.use(flash());
         this.app.use(express.urlencoded({extended: false}));
         this.app.use(methodOverride('__method__'));
         this.app.use(session({ 
