@@ -9,13 +9,13 @@ import passport from 'passport';
  * Description: Esta clase es la encarga de validar la autenticacion al momento de ingresar con un usuario ya creado
  */
 
-class AuthController{
+export class AuthController{
 
-    public renderSingForm(req:Request,res:Response): void {
+    public static renderSingForm(req:Request,res:Response): void {
         res.redirect("auth/singup");    
     }
 
-    public async singup(req:Request,res:Response): Promise<void> {
+    public static async singup(req:Request,res:Response): Promise<void> {
         let error = [];
         const {name, email, password, confirm_password} = req.body;
         if(password!=confirm_password){
@@ -47,11 +47,19 @@ class AuthController{
         return res.redirect("/auth/signin");
     }
 
-    public renderSinginForm(req: Request, res: Response): void {
+    public static renderSinginForm(req: Request, res: Response): void {
         res.render("auth/signin");
     }
 
-    public async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public static async singin(req:Request,res:Response,  next: NextFunction): Promise<void>{
+       passport.authenticate("local",{
+        successRedirect: "/tasks",
+        failureRedirect: "/auth/signin",
+        failureFlash: true,
+       })(req, res, next);
+    }
+
+    public static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
         await req.logout((err)=>{
             if (err) return next(err);
             req.flash("success_msg", "Usuario Registrado");
