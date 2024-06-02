@@ -3,11 +3,19 @@ import { TaskController } from '../controllers/TaskControllers';
 
 const router = Router();
 
-router.get('/list', TaskController.renderTasks);
-router.get('/', TaskController.renderTaskForm);
-router.post('/tasks/create', TaskController.createTask);
-router.get('/edit:id', TaskController.renderEditForm);
-router.put('/update/:id', TaskController.updateTasks);
-router.delete('/delete/:id', TaskController.deleteTasks);
+//Listar Tareas generadas
+router.get('/tasks/list', TaskController.renderTasks);
 
+//Crear una nueva tarea
+router.get('/tasks/create', TaskController.renderTaskForm);
+router.post('/tasks/create', TaskController.createTask);
+
+//Editar una tarea existente
+router.get('/tasks/edit/:id', TaskController.renderEditForm);
+router.put('/tasks/edit/:id', TaskController.updateTask);
+
+//Eliminar una tarea existente
+router.delete('/tasks/delete/:id', TaskController.deleteTask);
+
+//Se exporta router para poder tomarlos desde los otros archivos
 export default router;

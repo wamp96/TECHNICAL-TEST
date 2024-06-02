@@ -59,8 +59,9 @@ export class Application {
 
     //Creamos el metodo routes que sera el encargado de cargar las rutas de la aplicacion
     routes(){
-        this.app.use("/", indexRoutes);
-        this.app.use("/tasks", tasksRoutes);
+        this.app.use(indexRoutes);
+        this.app.use(tasksRoutes);
+        //this.app.use(userRoutes);
         this.app.use(express.static(path.join(__dirname, "public")));
 
     }

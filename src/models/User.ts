@@ -9,7 +9,19 @@ const { Schema } = mongoose;
  * Description: Este es el esquema de los datos que va a tener el usuario que se registre al aplicativo
  */
 
-const UserSchema = new Schema({
+
+interface UserDocument extends Document {
+    name: string;
+    email: string;
+    password: string;
+    created_at: Date;
+    encryptPassword: (password: string) => Promise<string>;
+    matchPassword: (password: string) => Promise<boolean>;
+
+}
+
+
+const UserSchema = new Schema<UserDocument>({
     name:{type:String, required:true},
     email:{type:String, required:true},
     password:{type:String, required:true},
@@ -21,9 +33,9 @@ const UserSchema = new Schema({
  * @param password se recibe la contraseña que se tiene en la base de datos, se encripta y guarda en la constante hash
  * @returns Se retorna la clave hast aplicando la cantidad de algoritmo almacenado de (10) segun la promesa.
  */
-UserSchema.methods.encryptPassword = async (password: any) =>{
+UserSchema.methods.encryptPassword = async (password: String): Promise<string> => {
     const Salt = await bcrypt.genSalt(10);
-    const hash = bcrypt.hash(password, Salt);
+    const hash = bcrypt.hash(password.toString(), Salt);
     return hash;
 }; 
 
@@ -33,9 +45,9 @@ UserSchema.methods.encryptPassword = async (password: any) =>{
  * @param password se recibe parametro contraseña y antes de ser en
  * @returns se retorna true si la promesa se cumple y las contraseñas son las mismas
  */
-UserSchema.methods.matchPassword = async function(password: any){
-    return await bcrypt.compare(password, this.password);
+UserSchema.methods.matchPassword = async function(password: String): Promise<boolean>{ 
+    return await bcrypt.compare(password.toString(), this.password);
 };
 
 //Utilizamos el esquema y le asignamos el nombre User
-module.exports = mongoose.model('User', UserSchema);
+export default  mongoose.model<UserDocument>("User", UserSchema);
