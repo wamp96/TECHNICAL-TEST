@@ -14,7 +14,7 @@ export class TaskController {
     };
     
     public static async createTask(req: Request, res:Response ): Promise<void> {        
-        const{title,description,dateExpiration,statusTask,user} = req.body;
+        const{title,description,dateExpiration,statusTask} = req.body;
         const error:{text:string}[]=[];
         
         //Validaciones de datos ingresados para confirma que no sean nulos
@@ -32,42 +32,47 @@ export class TaskController {
         }
         
         if(error.length > 0){
-            return res.render("tasks/",{
+            return res.render("tasks/create",{
+                error,
                 title,
                 description,
                 dateExpiration,
                 statusTask
             });
         }
-        
-        const newTask = new Task({title: String,description: String,dateExpiration: Date,statusTask: String})
-        newTask.user = user;
-        try {
-            await newTask.save();
-            req.flash("success_msg", "Tarea creada correctaemente");
-            res.redirect("/tasks");
-        } catch (error) {
-            console.error("Error al creaer la tarea",error);;            
-        }
+            else{
+            const newTask = new Task({title: String,description: String,dateExpiration: Date,statusTask: String})
+            try {
+                await newTask.save();
+                req.flash("success_msg", "Tarea creada correctamente");
+                res.redirect("/tasks/list");
+            } catch (error) {
+                console.error("Error al crear la tarea",error);;            
+            }            
+        }       
     };
     
-    public static async renderTasks(req: Request, res: Response): Promise<void>{
-        const tasks = await Task.find().lean();
+    public static async renderTasks(req: Request, res: Response): Promise<void> {
+        const tasks = await Task.find().sort({date: 'desc'});
         res.render('/tasks/list', {tasks});
     };
     
-    public static async renderEditForm(req: Request, res: Response): Promise<void>{
+    public static async deleteTask(req: Request, res: Response): Promise<void>{
         
+
+    };
+
+    public static async renderEditForm(req: Request, res: Response): Promise<void>{
+       // const tasks = await Task.find().
     };
 
     public static async updateTask(req: Request, res: Response): Promise<void>{
 
-    };
 
-    public static async deleteTask(req: Request, res: Response): Promise<void>{
 
     };
+
 
 }
-    
+//const tasks = await Task.findById(id).lean();
     

@@ -6,8 +6,11 @@ const TaskSchema = new Schema({
     description:{type: String, required:true },
     dateExpiration:{type : Date, required:true, default: Date.now()+5},
     statusTask:{ type: String, required:true },
-    user: { type: String, required:true}
+    //user: { type: String, required:true}
 })
+
+
+
 
 
 export default  mongoose.model("Task", TaskSchema);

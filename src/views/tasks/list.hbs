@@ -1,0 +1,37 @@
+<div class="row">
+    {{#each tasks}}
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                
+                <h4 class="card-title d-flex justify-content-between align-item-center">
+                    {{title}}
+                </h4>
+                <p class="card-text">
+                    {{description}}
+                </p>
+                <p class="card-text">
+                    {{dateExpiration}}
+                </p>
+                <p class="card-text">
+                    {{statusTask}}
+                </p>                
+                <button class="btn btn-danger btn-block btn-">
+                    Delete
+                </button>
+                <button class="btn btn-danger btn-block btn-">
+                    <a href="/tasks/edit/{{_id}}"></a>
+                </button>
+            </div>
+        </div>
+    </div>
+    {{else}}
+        <div class="card mx-auto">
+            <div class="card-body">
+                <p class="lead">SIN TAREAS!!</p>
+                <a href="/tasks/create" class="btn btn-success btn-block">Crea una nueva tarea</a>
+            </div>
+        </div>
+     {{/else}}
+    {{/each}}
+</div>
