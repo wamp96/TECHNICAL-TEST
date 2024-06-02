@@ -11,11 +11,11 @@ import passport from 'passport';
 
 export class AuthController{
 
-    public static renderSingupForm(req:Request,res:Response): void {
-        res.render("auth/singup");    
+    public static rendersignupForm(req:Request,res:Response): void {
+        res.render("auth/signup");    
     };
 
-    public static async singup(req:Request,res:Response): Promise<void> {
+    public static async signup(req:Request,res:Response): Promise<void> {
         let error = [];
         const {name, email, password, confirm_password} = req.body;
         if(password!=confirm_password){
@@ -25,7 +25,7 @@ export class AuthController{
             error.push({text: "La contraseña debe tener al menos 4 caracteres"});
         }
         if(error.length>0){
-            res.render("auth/singup",{
+            res.render("auth/signup",{
                 error,
                 name,
                 email,
@@ -37,24 +37,24 @@ export class AuthController{
         const userFound = await User.findOne({email:email});
         if (userFound){
             req.flash("error_msg", "El correo ingresado esta en uso");
-            return res.redirect("/auth/singup");
+            return res.redirect("/auth/signup");
         }
 
         const newUser = new User({name, email, password});
         newUser.password = await newUser.encryptPassword('password');
         await newUser.save();
         req.flash("success_msg", "Usuario Registrado");
-        return res.redirect("/auth/singin");
+        return res.redirect("/auth/signin");
     };
 
-    public static renderSinginForm(req: Request, res: Response): void {
-        res.render("auth/singin");
+    public static rendersigninForm(req: Request, res: Response): void {
+        res.render("auth/signin");
     };
 
-    public static async singin(req:Request,res:Response,  next: NextFunction): Promise<void>{
+    public static async signin(req:Request,res:Response,  next: NextFunction): Promise<void>{
        passport.authenticate("local",{
         successRedirect: "/tasks",
-        failureRedirect: "/auth/singin",
+        failureRedirect: "/auth/signin",
         failureFlash: true,
        })(req, res, next);
     };
@@ -63,7 +63,7 @@ export class AuthController{
         await req.logout((err)=>{
             if (err) return next(err);
             req.flash("success_msg", "Usuario Registrado");
-        return res.redirect("/auth/singin");
+        return res.redirect("/auth/signin");
         });  
     };
 }

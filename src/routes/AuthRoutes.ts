@@ -5,11 +5,11 @@ import { AuthController } from '../controllers/AuthControllers';
 const router = Router();
 
 //Rutas
-router.get('/auth/singup', AuthController.renderSingupForm);
-router.post('/auth/singup', AuthController.singup);
+router.get('/auth/signup', AuthController.rendersignupForm);
+router.post('/auth/signup', AuthController.signup);
 
-router.get('/auth/singin', AuthController.renderSinginForm);
-router.post('/auth/singin', AuthController.singin);
+router.get('/auth/signin', AuthController.rendersigninForm);
+router.post('/auth/signin', AuthController.signin);
 
 router.get('/auth/logout', AuthController.logout);
 
