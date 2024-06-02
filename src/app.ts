@@ -75,7 +75,7 @@ export class Application {
         this.app.use(morgan('dev'));
         this.app.use(flash());
         this.app.use(express.urlencoded({extended: false}));
-        this.app.use(methodOverride('__method__'));
+        this.app.use(methodOverride('_method'));
         this.app.use(session({ 
             secret: 'Secretapp',
             resave: true,

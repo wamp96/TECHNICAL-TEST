@@ -58,21 +58,20 @@ export class TaskController {
     };
     
     public static async deleteTask(req: Request, res: Response): Promise<void>{
-        
-
+        await Task.findByIdAndDelete(req.params.id);
+        res.redirect('/tasks/list');
     };
 
     public static async renderEditForm(req: Request, res: Response): Promise<void>{
-       // const tasks = await Task.find().
+        const task = await Task.findById(req.params.id)
+        res.render('/tasks/edit',{task});
     };
 
     public static async updateTask(req: Request, res: Response): Promise<void>{
-
-
-
+        const {title,description,dateExpiration,statusTask} = req.body;
+        await Task.findByIdAndUpdate(req.params.id, {title, description, dateExpiration, statusTask});
+        res.redirect('/tasks/list');
     };
-
-
 }
-//const tasks = await Task.findById(id).lean();
+
     
