@@ -4,7 +4,7 @@ import path from 'path';
 
 const exphbs = require('express-handlebars');
 
-export const DB_PORT = process.env.DB_PORT || 3000;
+export const DB_PORT = process.env.DB_PORT || 4000;
 /**
  * Author: Willian Andres Moreno Prieto
  * Date:31/05/2024
@@ -31,12 +31,11 @@ export class Application {
      * 
      */
     settings(){   
-       
-        this.app.set('views', path.join(__dirname, 'views'));    
+        this.app.set('./views', path.join(__dirname, 'views'));    
         this.app.engine('.hbs', exphbs.engine(
             {
-                layoutsDir: path.join(this.app.get('views'), 'layouts'),
-                partialsDir: path.join(this.app.get('views'), 'partials'),
+                layoutsDir: path.join(this.app.get('./views'), 'layouts'),
+                partialsDir: path.join(this.app.get('./views'), 'partials'),
                 defaultLayout: 'main',
                 extname: '.hbs',
             }
