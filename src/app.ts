@@ -16,6 +16,7 @@ export const DB_PORT = process.env.DB_PORT || 4000;
 
 import indexRoutes from "./routes/IndexRoutes";
 import tasksRoutes from "./routes/TaskRoutes";
+import authRoutes from "./routes/AuthRoutes";
 
 
 export class Application {
@@ -61,7 +62,7 @@ export class Application {
     routes(){
         this.app.use(indexRoutes);
         this.app.use(tasksRoutes);
-        //this.app.use(userRoutes);
+        this.app.use(authRoutes);
         this.app.use(express.static(path.join(__dirname, "public")));
 
     }

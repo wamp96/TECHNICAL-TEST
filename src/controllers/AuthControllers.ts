@@ -48,7 +48,7 @@ export class AuthController{
     }
 
     public static renderSinginForm(req: Request, res: Response): void {
-        res.render("auth/signin");
+        res.render("/auth/signin");
     }
 
     public static async singin(req:Request,res:Response,  next: NextFunction): Promise<void>{
