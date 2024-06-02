@@ -1,8 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
-
-const exphbs = require('express-handlebars');
+import { create } from "express-handlebars";
 
 export const DB_PORT = process.env.DB_PORT || 4000;
 /**
@@ -11,6 +10,11 @@ export const DB_PORT = process.env.DB_PORT || 4000;
  * Update Date:31/05/2024
  * Description: Esta clase sera la encargada de tener la aplicacion
  */
+
+
+import indexRoutes from "./routes/IndexRoutes";
+//import tasksRoutes from "./routes/tasks.routes";
+
 
 export class Application {
 
@@ -31,16 +35,15 @@ export class Application {
      * 
      */
     settings(){   
-        this.app.set('./views', path.join(__dirname, 'views'));    
-        this.app.engine('.hbs', exphbs.engine(
-            {
-                layoutsDir: path.join(this.app.get('./views'), 'layouts'),
-                partialsDir: path.join(this.app.get('./views'), 'partials'),
-                defaultLayout: 'main',
-                extname: '.hbs',
-            }
-        ));
-        this.app.set('view engine', '.hbs');
+        this.app.set('views', path.join(__dirname, 'views')); 
+        this.app.engine('.hbs', create({
+            layoutsDir: path.join(this.app.get("views"), "layouts"),
+            partialsDir: path.join(this.app.get("views"), "partials"),
+            defaultLayout: "main",
+            extname: ".hbs",
+        }).engine
+        );
+        this.app.set('view engine','.hbs');
     }
 
     //Creamos el metodo start que sera el encargado de iniciar la aplicacion y dentro ejecutamos el metodo listen de la propiedad app que empezara a ejecutar el servidor local.  
@@ -53,7 +56,9 @@ export class Application {
 
     //Creamos el metodo routes que sera el encargado de cargar las rutas de la aplicacion
     routes(){
+        this.app.use("/", indexRoutes);
 
+        this.app.use(express.static(path.join(__dirname, "public")));
 
     }
 
