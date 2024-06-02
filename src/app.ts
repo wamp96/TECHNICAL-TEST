@@ -3,17 +3,19 @@ import morgan from 'morgan';
 import path from 'path';
 import { create } from "express-handlebars";
 
+export const session = require('express-session');
+export const methodOverride = require('method-override');
 export const DB_PORT = process.env.DB_PORT || 4000;
 /**
  * Author: Willian Andres Moreno Prieto
  * Date:31/05/2024
- * Update Date:31/05/2024
+ * Update Date:01/06/2024
  * Description: Esta clase sera la encargada de tener la aplicacion
  */
 
 
 import indexRoutes from "./routes/IndexRoutes";
-//import tasksRoutes from "./routes/tasks.routes";
+import tasksRoutes from "./routes/TaskRoutes";
 
 
 export class Application {
@@ -35,12 +37,13 @@ export class Application {
      * 
      */
     settings(){   
-        this.app.set('views', path.join(__dirname, 'views')); 
+        this.app.set("views", path.join(__dirname, "views")); 
         this.app.engine('.hbs', create({
             layoutsDir: path.join(this.app.get("views"), "layouts"),
             partialsDir: path.join(this.app.get("views"), "partials"),
             defaultLayout: "main",
             extname: ".hbs",
+            //helpers: require('helpers')
         }).engine
         );
         this.app.set('view engine','.hbs');
@@ -57,7 +60,7 @@ export class Application {
     //Creamos el metodo routes que sera el encargado de cargar las rutas de la aplicacion
     routes(){
         this.app.use("/", indexRoutes);
-
+        this.app.use("/tasks", tasksRoutes);
         this.app.use(express.static(path.join(__dirname, "public")));
 
     }
@@ -66,6 +69,13 @@ export class Application {
     //Creamos el metodo middlewares que sera el encargado de cargar los middlewares de la aplicacion
     middlewares(){
         this.app.use(morgan('dev'));
+        this.app.use(express.urlencoded({extended: false}));
+        this.app.use(methodOverride('__method__'));
+        this.app.use(session({ 
+            secret: 'Secretapp',
+            resave: true,
+            saveUninitialized: true
+        }));
     }
 
 

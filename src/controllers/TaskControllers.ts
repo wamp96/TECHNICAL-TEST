@@ -1,5 +1,5 @@
 import { Request , Response } from "express";
-import { z } from "zod";
+import { z,ZodObject  } from "zod";
 const Task = require ('../models/Task');
 /**
      * Author: Willian Andres Moreno Prieto
@@ -19,8 +19,8 @@ export class TaskController {
         }),
     });
 
-    //private static createTaskType = z.inter<typeof TaskController.createTaskSchema>;
 
+    
     public static async renderTasks(req: Request, res: Response): Promise<void>{
         const tasks = await Task.find().lean();
         res.render('tasks/list', {tasks});
@@ -30,15 +30,18 @@ export class TaskController {
         res.render('tasks/create');
     }
  
-    // public static async createTask(req: Request<{},{}, createTaskType, ): Promise<void>{
+    public static async createTask(req: Request<{},{}, createTaskType>,res:Response ): Promise<void>{
 
-    // }
-    // public static async renderTask(req: Request, res: Response): Promise<void>{
+    }
+    public static async renderEditForm(req: Request, res: Response): Promise<void>{
 
-    // }
-    // public static async renderTask(req: Request, res: Response): Promise<void>{
+    }
+    public static async updateTasks(req: Request, res: Response): Promise<void>{
 
-    // }
+    }
+    public static async deleteTasks(req: Request, res: Response): Promise<void>{
+
+    }
 
 
 

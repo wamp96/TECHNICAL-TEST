@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form action="/tasks/create" method="POST" >
+                    <div class="mb-3">
+                        <label class="form-label">Titulo</label>
+                        <input type="text" class="form-control" name="title" placeholder="Ingrese el Titulo" autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripcion</label>
+                        <input type="text" class="form-control" name="description">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-control" name="dateExpiration">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <input type="text" class="form-control" name="statusTask">
+                    </div>            
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
