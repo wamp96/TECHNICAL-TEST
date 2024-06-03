@@ -3,9 +3,11 @@ import express from 'express';
 import morgan from 'morgan';
 import path from 'path';
 import { create } from "express-handlebars";
+import session from 'express-session';
+import methodOverride from 'method-override';
+ 
 
-export const session = require('express-session');
-export const methodOverride = require('method-override');
+
 export const DB_PORT = process.env.DB_PORT || 4000;
 /**
  * Author: Willian Andres Moreno Prieto

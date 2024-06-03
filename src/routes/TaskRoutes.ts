@@ -13,11 +13,11 @@ router.get('/tasks/create',  TaskController.renderTaskForm);
 router.post('/tasks/create', TaskController.createTask);
 
 //Editar una tarea existente
-router.get('/tasks/edit/:id', isAuthenticated, TaskController.renderEditForm);
-router.put('/tasks/edit/:id', isAuthenticated, TaskController.updateTask);
+router.get('/tasks/edit/:id',  TaskController.renderEditForm);
+router.put('/tasks/edit/:id',  TaskController.updateTask);
 
 //Eliminar una tarea existente
-router.delete('/tasks/delete/:id', isAuthenticated, TaskController.deleteTask);
+router.delete('/tasks/delete/:id', TaskController.deleteTask);
 
 //Se exporta router para poder tomarlos desde los otros archivos
 export default router;

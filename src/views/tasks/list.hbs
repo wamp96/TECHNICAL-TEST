@@ -2,8 +2,7 @@
     {{#each tasks}}
     <div class="col-md-3">
         <div class="card">
-            <div class="card-body">
-                
+            <div class="card-body">                
                 <h4 class="card-title d-flex justify-content-between align-item-center">
                     {{title}}
                 </h4>
@@ -16,15 +15,20 @@
                 <p class="card-text">
                     {{statusTask}}
                 </p>                                
-                <button class="btn btn-danger btn-block btn-">
-                    <a href="/tasks/edit/{{_id}}"></a>
-                </button>
+                
+                <form action="/tasks/edit/{{_id}}?_method=PUT" method="POST">
+                    <button class="btn btn-danger btn-block btn-sm" type="submit">
+                        EDIT
+                    </button>
+                </form>
+
                 <form action="/tasks/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         DELETE
                     </button>
                 </form>
+                
             </div>
         </div>
     </div>
@@ -35,6 +39,5 @@
                 <a href="/tasks/create" class="btn btn-success btn-block">Crea una nueva tarea</a>
             </div>
         </div>
-     {{/else}}
     {{/each}}
 </div>
