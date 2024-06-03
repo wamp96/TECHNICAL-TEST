@@ -4,5 +4,4 @@ import {Router, Request, Response} from 'express';
     public static async renderIndex(req: Request, res: Response): Promise<void>{
         res.render("index");
     }
-
  }

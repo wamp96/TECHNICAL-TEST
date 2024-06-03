@@ -85,6 +85,7 @@ export class TaskController {
      */
     public static async deleteTask(req: Request, res: Response): Promise<void>{
         await Task.findByIdAndDelete(req.params.id);
+        req.flash("success_msg", "Tarea eliminada correctamente");
         res.redirect('/tasks/list');
     };
 
@@ -104,10 +105,12 @@ export class TaskController {
      * req.params.id podremos obtener el identificador unico sus datos segun corresponda, luego seran actualizados con el metodo
      * findByIdAndUpdate el cual nos trae ya mongosee
      * @param res Se redireciona al cumplir la promesa a la ruta indicada en el cuerpo del correo 
+     * @returns El retorno de esta funcion sera la actualizacion de los datos
      */
     public static async updateTask(req: Request, res: Response): Promise<void>{
         const {title,description,dateExpiration,statusTask} = req.body;
         await Task.findByIdAndUpdate(req.params.id, {title, description, dateExpiration, statusTask});
+        req.flash("success_msg", "Tarea actualizada correctamente");
         res.redirect('/tasks/list');
     };
 }

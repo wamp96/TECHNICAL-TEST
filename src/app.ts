@@ -48,7 +48,10 @@ export class Application {
             partialsDir: path.join(this.app.get("views"), "partials"),
             defaultLayout: "main",
             extname: ".hbs",
-            //helpers: require('helpers')
+            runtimeOptions:{
+                allowProtoPropertiesByDefault: true,
+                allowProtoMethodsByDefault: true,
+            }
         }).engine
         );
         this.app.set('view engine','.hbs');
@@ -83,8 +86,14 @@ export class Application {
             resave: true,
             saveUninitialized: true
         }));
+
+        this.app.use((req, res, next)=>{
+            res.locals.success_msg = req.flash("success_msg");
+            res.locals.error_msg = req.flash("error_msg");
+            res.locals.error = req.flash("error");
+            res.locals.user = req.user || null;
+            next();
+        });
     }
-
-
 }
 

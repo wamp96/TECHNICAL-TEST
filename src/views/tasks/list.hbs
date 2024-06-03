@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">                
                 <h4 class="card-title d-flex justify-content-between align-item-center">
-                    {{title}}
+                    {{title}} <a href="/tasks/edit/{{_id}}?_method=PUT">EDIT</a>
                 </h4>
                 <p class="card-text">
                     {{description}}
@@ -15,20 +15,13 @@
                 <p class="card-text">
                     {{statusTask}}
                 </p>                                
-                
-                <form action="/tasks/edit/{{_id}}?_method=PUT" method="POST">
-                    <button class="btn btn-danger btn-block btn-sm" type="submit">
-                        EDIT
-                    </button>
-                </form>
-
                 <form action="/tasks/delete/{{_id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="btn btn-danger btn-block btn-sm" type="submit">
                         DELETE
                     </button>
                 </form>
-                
+
             </div>
         </div>
     </div>
