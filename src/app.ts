@@ -20,13 +20,14 @@ export const SR_PORT = process.env.SR_PORT || 4000;
 import indexRoutes from "./routes/IndexRoutes";
 import tasksRoutes from "./routes/TaskRoutes";
 import authRoutes from "./routes/AuthRoutes";
-
+//import "./config/passport.js";
 
 
 export class Application {
 
     //Craemos la propiedad app la cual sera una instancia de la aplicacion de Express
     app: express.Application;
+    
 
     //Creamos el constructor de la clase Application
     constructor() {
@@ -71,7 +72,6 @@ export class Application {
         this.app.use(tasksRoutes);
         this.app.use(authRoutes);
         this.app.use(express.static(path.join(__dirname, "public")));
-
     }
 
 
@@ -79,14 +79,15 @@ export class Application {
     middlewares(){
         this.app.use(morgan('dev'));
         this.app.use(flash());
-        this.app.use(express.urlencoded({extended: false}));
+        this.app.use(express.urlencoded({extended: true}));
         this.app.use(methodOverride('_method'));
         this.app.use(session({ 
             secret: 'Secretapp',
             resave: true,
             saveUninitialized: true
         }));
-
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());        
         this.app.use((req, res, next)=>{
             res.locals.success_msg = req.flash("success_msg");
             res.locals.error_msg = req.flash("error_msg");
@@ -95,8 +96,9 @@ export class Application {
             next();
         });
 
-        this.app.use(passport.initialize());
-        this.app.use(passport.session());
+       
+       
     }
 }
 
+export default Application;

@@ -17,7 +17,7 @@ router.get('/tasks/edit/:id', isAuthenticated, TaskController.renderEditForm);
 router.put('/tasks/edit/:id', isAuthenticated, TaskController.updateTask);
 
 //Eliminar una tarea existente
-router.delete('/tasks/delete/:id', TaskController.deleteTask);
+router.delete('/tasks/delete/:id', isAuthenticated, TaskController.deleteTask);
 
 //Se exporta router para poder tomarlos desde los otros archivos
 export default router;

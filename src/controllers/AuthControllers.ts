@@ -1,7 +1,7 @@
-import passport from "passport";
 import { NextFunction, Request , Response } from "express";
+import passport from "passport";
 import User from '../models/User';
-import * as passportConfig from '../config/passport';
+
 
 
 /**
@@ -12,14 +12,29 @@ import * as passportConfig from '../config/passport';
  */
 
 export class AuthController{
-
+    
+    /**Metodo utilizado para renderizar la vista y enviar la respuesta al cliente segun la consulta HTTP realizada
+     * @param res Se renderiza la vista con res.render lo cual permite tener como respuesta la vista signup
+     */
     public static rendersignupForm(req:Request,res:Response): void {
         res.render("auth/signup");    
     };
 
+    /**
+     * Metodo utilizado para manejar el proceso de registro de un nuevo usuario, permitiendo validar los datos enviados por el usuario 
+     * durante el proceso de registro, si los datos son validos, crea el usuario en la base de datos, 
+     * adicional a esto redirige al usuario la pagina inicio de sesion
+     * @param req Contiene toda la informacion enviada por el usuario para el registro 
+     * @param res Realiza la respuesta al cliente esto renderizando la vista, adicional renderizandola con los errores predeterminados
+     * @returns 
+     * 
+     */
     public static async signup(req:Request,res:Response): Promise<void> {
         let error = [];
+
         const {name, email, password, confirm_password} = req.body;
+
+        //Validaciones
         if(password!=confirm_password){
             error.push({text: "Las contraseñas no coinciden"});
         }
@@ -52,24 +67,19 @@ export class AuthController{
         res.render("auth/signin");
     };
 
-    public static async signin(req:Request,res:Response,  next: NextFunction): Promise<void>{
-       passport.authenticate('local'),(err: any,user: Express.User,info: any)=>{
 
-        if (!user) {
-            req.flash('error_msg', 'Usuario o contraseña incorrectos');
-            return res.redirect('/auth/signin');
-         }
-             req.logIn(user, (err) => {
-             if (err) { return next(err); }
-             return res.redirect('/tasks/list');
-         }
-        );
-         
-    //     successRedirect: "/tasks/list",
-        
-    //     failureRedirect: "/auth/signin",
-    //     failureFlash: true,
-        };
+    
+    public static async signin(req:Request,res:Response,  next: NextFunction): Promise<void>{
+        try{
+            passport.authenticate("local", {
+            successRedirect: "/tasks/list",
+            failureRedirect: "/auth/signin",
+            failureFlash: true,
+        });
+            
+    }catch(err){
+        console.log(err);
+    }
     };
 
     public static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -81,4 +91,3 @@ export class AuthController{
     };
 }
 
-passportConfig; 
