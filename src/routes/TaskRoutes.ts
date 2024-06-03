@@ -6,15 +6,15 @@ import { isAuthenticated } from '../helpers/auth';
 const router = Router();
 
 //Listar Tareas generadas
-router.get('/tasks/list', TaskController.renderTasks);
+router.get('/tasks/list', isAuthenticated, TaskController.renderTasks);
 
 //Crear una nueva tarea
-router.get('/tasks/create',  TaskController.renderTaskForm);
-router.post('/tasks/create', TaskController.createTask);
+router.get('/tasks/create', isAuthenticated, TaskController.renderTaskForm);
+router.post('/tasks/create', isAuthenticated, TaskController.createTask);
 
 //Editar una tarea existente
-router.get('/tasks/edit/:id',  TaskController.renderEditForm);
-router.put('/tasks/edit/:id',  TaskController.updateTask);
+router.get('/tasks/edit/:id', isAuthenticated, TaskController.renderEditForm);
+router.put('/tasks/edit/:id', isAuthenticated, TaskController.updateTask);
 
 //Eliminar una tarea existente
 router.delete('/tasks/delete/:id', TaskController.deleteTask);

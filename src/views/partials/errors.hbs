@@ -1,0 +1,13 @@
+{{#if error}}
+    <div class="alert alert-danger alert-dismissible fade show">
+        {{error}}
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+{{/if}}
+
+{{#each errors}}
+    <div class="alert alert-danger alert-dismissible fade show"></div>
+        {{text}}
+    <button class="close" type="button" data-dismiss="alert" aria-label="Close"></button>
+{{/each}}
+

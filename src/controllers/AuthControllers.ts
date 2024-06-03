@@ -1,6 +1,8 @@
+import passport from "passport";
 import { NextFunction, Request , Response } from "express";
 import User from '../models/User';
-import passport from 'passport';
+import * as passportConfig from '../config/passport';
+
 
 /**
  * Author: Willian Andres Moreno Prieto
@@ -32,19 +34,18 @@ export class AuthController{
                 password,
                 confirm_password
             });
-        }
-
-        const userFound = await User.findOne({email:email});
-        if (userFound){
-            req.flash("error_msg", "El correo ingresado esta en uso");
-            return res.redirect("/auth/signup");
-        }
-
-        const newUser = new User({name, email, password});
-        newUser.password = await newUser.encryptPassword('password');
-        await newUser.save();
-        req.flash("success_msg", "Usuario Registrado");
-        return res.redirect("/auth/signin");
+        }else{         
+            const userFound = await User.findOne({email:email});
+                if (userFound){
+                    req.flash("error_msg", "El correo ingresado esta en uso");
+                    return res.redirect("/auth/signup");
+                }
+            const newUser = new User({name, email, password});
+            newUser.password = await newUser.encryptPassword('password');
+            await newUser.save();
+            req.flash("success_msg", "Usuario Registrado");
+            return res.redirect("/auth/signin");
+        }        
     };
 
     public static rendersigninForm(req: Request, res: Response): void {
@@ -52,11 +53,23 @@ export class AuthController{
     };
 
     public static async signin(req:Request,res:Response,  next: NextFunction): Promise<void>{
-       passport.authenticate("local",{
-        successRedirect: "/tasks",
-        failureRedirect: "/auth/signin",
-        failureFlash: true,
-       })(req, res, next);
+       passport.authenticate('local'),(err: any,user: Express.User,info: any)=>{
+
+        if (!user) {
+            req.flash('error_msg', 'Usuario o contraseña incorrectos');
+            return res.redirect('/auth/signin');
+         }
+             req.logIn(user, (err) => {
+             if (err) { return next(err); }
+             return res.redirect('/tasks/list');
+         }
+        );
+         
+    //     successRedirect: "/tasks/list",
+        
+    //     failureRedirect: "/auth/signin",
+    //     failureFlash: true,
+        };
     };
 
     public static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -68,3 +81,4 @@ export class AuthController{
     };
 }
 
+passportConfig; 

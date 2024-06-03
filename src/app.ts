@@ -5,10 +5,10 @@ import path from 'path';
 import { create } from "express-handlebars";
 import session from 'express-session';
 import methodOverride from 'method-override';
- 
+import passport from 'passport';
 
 
-export const DB_PORT = process.env.DB_PORT || 4000;
+export const SR_PORT = process.env.SR_PORT || 4000;
 /**
  * Author: Willian Andres Moreno Prieto
  * Date:31/05/2024
@@ -60,8 +60,8 @@ export class Application {
     //Creamos el metodo start que sera el encargado de iniciar la aplicacion y dentro ejecutamos el metodo listen de la propiedad app que empezara a ejecutar el servidor local.  
     start(): void{
         //Se crea el servidor y se genera el puerto segun lo envio recibido desde el metodo setting 
-        this.app.listen(DB_PORT, ()=>{
-            console.log('Server running ',DB_PORT);
+        this.app.listen(SR_PORT, ()=>{
+            console.log('Server running ',SR_PORT);
         });
     }
 
@@ -94,6 +94,9 @@ export class Application {
             res.locals.user = req.user || null;
             next();
         });
+
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
 }
 
