@@ -10,8 +10,7 @@ async function main(){
     await connectdb();    
     require ('./config/passport');  
     const app = new Application();
-    app.start();
-      
+    app.start();   
 }
 
 main();

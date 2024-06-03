@@ -44,7 +44,6 @@ DEPENDENCIAS:
     *express-handlebars
     *express-session
     *method-override
--passport 
 -bcrypt
 -bcryptjs
 -connect-flash
@@ -94,4 +93,3 @@ CONFIGURACION Y EJECUCION:
 
 
 
-ENDPOINT:

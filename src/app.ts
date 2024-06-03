@@ -1,3 +1,6 @@
+
+import swaggerUI from "swagger-ui-express";
+import swaggerJsDoc from'swagger-jsdoc';
 import flash from 'express-flash';
 import express from 'express';
 import morgan from 'morgan';
@@ -6,6 +9,7 @@ import { create } from "express-handlebars";
 import session from 'express-session';
 import methodOverride from 'method-override';
 import passport from 'passport';
+import {options} from './swaggerOptions';
 
 
 export const SR_PORT = process.env.SR_PORT || 4000;
@@ -36,6 +40,7 @@ export class Application {
         this.settings();
         this.middlewares();
         this.routes();
+        
     }
 
     /**
@@ -55,7 +60,9 @@ export class Application {
             }
         }).engine
         );
-        this.app.set('view engine','.hbs');
+        const specs = swaggerJsDoc(options)
+        this.app.set('view engine','.hbs');   
+        this.app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
     }
 
     //Creamos el metodo start que sera el encargado de iniciar la aplicacion y dentro ejecutamos el metodo listen de la propiedad app que empezara a ejecutar el servidor local.  

@@ -13,11 +13,7 @@ import passport from 'passport';
  */
 
 export class AuthController{
-    private passport: passport.PassportStatic;
 
-    constructor(passportInstance: passport.PassportStatic) {
-        this.passport = passportInstance;
-    }
     /**Metodo utilizado para renderizar la vista y enviar la respuesta al cliente segun la consulta HTTP realizada
      * @param res Se renderiza la vista con res.render lo cual permite tener como respuesta la vista signup
      */
@@ -68,14 +64,20 @@ export class AuthController{
         }        
     };
 
-    
-    public static signin(req: Request, res: Response, next: NextFunction): void {
-        // Eliminar temporalmente el middleware de autenticación
-        // this.passport.authenticate('local', {
-        //     successRedirect: '/dashboard',
-        //     failureRedirect: '/signin',
-        //     failureFlash: true
-        // })(req, res, next);
+    /**
+     * Metodo encargado de realizar el inicio de sesion donde se 
+     * @param req 
+     * 
+     * @param res 
+     * 
+     */
+    public static signin(req: Request, res: Response): void {
+
+        passport.authenticate('local', {
+            successRedirect: '/tasks/list',
+            failureRedirect: '/auth/signin',
+            failureFlash: true
+        })(req, res);
         
         // Lógica de autenticación simulada para fines de prueba
         const { username, password } = req.body;
@@ -86,11 +88,6 @@ export class AuthController{
             res.redirect('/auth/signin');
         }
     }
-
-
-
-
-
 
     public static rendersigninForm(req: Request, res: Response): void {
         res.render("auth/signin");

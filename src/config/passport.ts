@@ -16,7 +16,6 @@ passport.use(new LocalStrategy({ usernameField: 'email'},async (email: string,pa
     }
         const match = await bcrypt.compare(password, user.password); ;
         if(match){
-            console.log(1);
             return done(null, user);
         }else{
             return done(null, false,{message: 'Contraseña Incorrecta'});            
@@ -38,4 +37,3 @@ passport.deserializeUser(async (id: String, done)=>{
     } 
 });
 
-export { passport };
