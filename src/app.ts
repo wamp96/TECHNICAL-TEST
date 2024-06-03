@@ -20,7 +20,7 @@ export const SR_PORT = process.env.SR_PORT || 4000;
 import indexRoutes from "./routes/IndexRoutes";
 import tasksRoutes from "./routes/TaskRoutes";
 import authRoutes from "./routes/AuthRoutes";
-//import "./config/passport.js";
+import "./config/passport";
 
 
 export class Application {

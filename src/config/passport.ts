@@ -1,25 +1,28 @@
+import bcrypt from "bcrypt";
 import passport from 'passport';
 import User from '../models/User';
 
-const LocalStrategy = require('passport-local').Strategy
+
+import {Strategy as LocalStrategy}  from 'passport-local';
 
 
 passport.use(new LocalStrategy({ usernameField: 'email'},async (email: string,password: string, done: any)=>{
     try{
     
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({email});
 
     if(!user){
         return done(null, false,{message: 'User not found'});
     }
-        const match = await user.matchPassword(password);
+        const match = await bcrypt.compare(password, user.password); ;
         if(match){
+            console.log(1);
             return done(null, user);
         }else{
-            return done(null, false,{message: 'Contraseña Incorrecta'});
+            return done(null, false,{message: 'Contraseña Incorrecta'});            
         }
     }catch(err){
-        return done(null, false,{message: 'Error al iniciar sesion'});
+            return done(null, false,{message: 'Error al iniciar sesion'});        
     }    
     }));
 
@@ -28,9 +31,11 @@ passport.serializeUser((user: any, done)=>{
 });
 
 passport.deserializeUser(async (id: String, done)=>{
-        User.findById(id,(err: any,user: any)=>{
-            done(err, user.id);
-        })    
+    try {
+        const user = await User.findById(id).exec(); 
+    } catch (error) {
+        done(error);
+    } 
 });
 
 export { passport };
